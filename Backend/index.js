@@ -28,59 +28,9 @@ app.get("/getData", (req, res) => {
     res.send("Hello, I'm from the backend");
 });
 
-// // Create a new applicant
-// app.post("/applicants", async (req, res) => {
-//     try {
-//         // Extract individual fields from the request body
-//         const {
-//             name,
-//             address,
-//             nic,
-//             emailAddress,
-//             date,
-//             applicantDetails,
-//             position,
-//             Diploma,
-//             cv
-//         } = req.body;
-
-//         // Generate a unique reference number
-//         const referenceNumber = shortid.generate();
-
-//         // Create a new instance of ApplicantModel with the extracted data
-//         const applicant = new ApplicantModel({
-//             referenceNumber, // Add the generated reference number
-//             userId: '065695895622622',
-//             name,
-//             address,
-//             nic,
-//             emailAddress,
-//             date,
-//             applicantDetails,
-//             position,
-//             Diploma,
-//             cv
-//         });
-
-//         // Save the applicant to the database
-//         await applicant.save();
-
-//         // Respond with a 201 status code and the saved applicant data
-//         res.status(201).json(applicant);
-//     } catch (err) {
-//         // Handle any errors that occur during the process
-//         console.error(err);
-//         res.status(500).send("Error creating applicant");
-//     }
-// });
-
-app.post("/applicants", async (req, res) => {
+// Route to create a new applicant
+app.post('/applicants', async (req, res) => {
     try {
-        // Check if the 'name' field is provided in the request body
-        // if (!req.body.name) {
-        //     return res.status(400).json({ error: "Name is required" });
-        // }
-
         // Extract individual fields from the request body
         const {
             name,
@@ -91,13 +41,11 @@ app.post("/applicants", async (req, res) => {
             applicantDetails,
             position,
             Diploma,
-            cv
+            cv,
         } = req.body;
 
-        // Create a new instance of ApplicantModel with the extracted data
-        const applicant = new ApplicantModel({
-
-            userId: '065695895622622',
+        // Create a new instance of the Applicant model with the extracted data
+        const applicant = new Applicant({
             name,
             address,
             nic,
@@ -106,7 +54,7 @@ app.post("/applicants", async (req, res) => {
             applicantDetails,
             position,
             Diploma,
-            cv
+            cv,
         });
 
         // Save the applicant to the database
@@ -117,9 +65,11 @@ app.post("/applicants", async (req, res) => {
     } catch (err) {
         // Handle any errors that occur during the process
         console.error(err);
-        res.status(500).send("Error creating applicant");
+        res.status(500).send('Error creating applicant');
     }
 });
+
+
 
 
 // Get all applicants

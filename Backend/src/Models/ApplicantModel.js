@@ -1,82 +1,45 @@
-const mongoose = require("mongoose");
-const shortid = require("shortid");
+const mongoose = require('mongoose');
 
-// Define the schema for the job applicant
+// Define the schema for the applicant
 const applicantSchema = new mongoose.Schema({
-    referenceNumber: {
-        type: String,
-        default: shortid.generate, // Generate a unique reference number
-        unique: true, // Ensure uniqueness
-    },
-    userId: {
-        type: 'string',
-    },
     name: {
         type: String,
-        required: true, // Add required field for name
+        required: true,
     },
     address: {
         type: String,
-        // required: true, // Add required field for address
+        required: true,
     },
     nic: {
         type: String,
-        // required: true, // Add required field for nic
+        required: true,
     },
     emailAddress: {
         type: String,
-        // required: true, // Add required field for emailAddress
+        required: true,
     },
     date: {
         type: Date,
-        // required: true, // Add required field for date
+        required: true,
     },
     applicantDetails: {
-        highSchoolName: {
-            type: String,
-            // required: true, // Add required field for highSchoolName
-        },
-        city: {
-            type: String,
-            // required: true, // Add required field for city
-        },
-        fromDate: {
-            type: Date,
-            // required: true, // Add required field for fromDate
-        },
-        toDate: {
-            type: Date,
-            // required: true, // Add required field for toDate
-        },
-        graduate: {
-            type: Boolean,
-            // required: true, // Add required field for graduate
-        },
-        graduateExplanation: {
-            type: String,
-        },
-        authorized: {
-            type: Boolean,
-            // required: true, // Add required field for authorized
-        },
-        convicted: {
-            type: Boolean,
-            // required: true, // Add required field for convicted
-        },
+        highSchoolName: String,
+        city: String,
+        fromDate: Date,
+        toDate: Date,
+        graduate: Boolean,
+        graduateExplanation: String,
+        authorized: Boolean,
+        convicted: Boolean,
     },
-    position: {
-        type: String,
-        // required: true,
-    },
-    Diploma: {
-        type: String,
-    },
+    position: String,
+    Diploma: String,
     cv: {
-        type: String, // You can store the file path or reference here
+        type: String, // You can use String to store the file path or other information about the uploaded CV
     },
 });
 
-// Create a model for the job applicant using the schema
-const ApplicantModel = mongoose.model("Applicant", applicantSchema);
+// Create the Applicant model
+const Applicant = mongoose.model('Applicant', applicantSchema);
 
-module.exports = ApplicantModel;
+module.exports = Applicant;
