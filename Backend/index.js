@@ -1,18 +1,28 @@
-const mongoose = require("mongoose");
-const express = require("express");
-const cors = require("cors");
-const shortid = require("shortid"); // Import shortid for generating unique reference numbers
+import { connect } from "mongoose";
+import express, { json } from "express";
+import cors from "cors";
+
+// Define the ApplicantModel (replace with your actual model)
+
+import ApplicantModel from "./src/Models/ApplicantModel.js";
+
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(json());
+
+// const corsOptions = {
+//     origin: 'http://localhost:3000/',
+// };
+
+// app.use(cors(corsOptions));
+
 
 // Connect to MongoDB
-mongoose
-    .connect("mongodb+srv://gymly:gymly123@gymly-db-cluster.sfmuyh9.mongodb.net/Applicant-db?retryWrites=true&w=majority", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
+connect("mongodb+srv://chalasaumya:s1YVDLylS6AJi0um@cluster0.qnwo5bb.mongodb.net/", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
     .then(() => {
         console.log("Connected to MongoDB");
     })
@@ -20,59 +30,97 @@ mongoose
         console.error("Error connecting to MongoDB: ", err);
     });
 
-// Define the ApplicantModel (replace with your actual model)
-const ApplicantModel = require("./src/Models/ApplicantModel");
-
-// Connect with frontend
-app.get("/getData", (req, res) => {
-    res.send("Hello, I'm from the backend");
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
 });
 
-// Route to create a new applicant
-app.post('/applicants', async (req, res) => {
+
+
+//connect with frontend
+app.get("/getData", (req, res) => {
+    res.send("Hello I'm from backend");
+});
+
+
+
+
+app.post("/applicant", (req, res) => {
+
+    const userId = "45821463#23669545";
+    const name = req.body.name
+    const address = req.body.address
+    const nic = req.body.nic
+    const emailAddress = req.body.emailAddress
+    const date = req.body.date
+    const highSchoolName = req.body.highSchoolName
+    const city = req.body.city
+    const fromDate = req.body.fromDate
+    const toDate = req.body.toDate
+    const graduate = req.body.graduate
+    const graduateExplanation = req.body.graduateExplanation
+    const authorized = req.body.authorized
+    const convicted = req.body.convicted
+    const position = req.body.position
+    const Diploma = req.body.Diploma
+    const cv = req.body.cv
+
+    console.log(name + address + nic)
+
+    const applicant = new ApplicantModel({
+        userId: userId,
+        name: name,
+        address: address,
+        nic: nic,
+        emailAddress: emailAddress,
+        date: date,
+        highSchoolName: highSchoolName,
+        city: city,
+        fromDate: fromDate,
+        toDate: toDate,
+        graduate: graduate,
+        graduateExplanation: graduateExplanation,
+        authorized: authorized,
+        convicted: convicted,
+        position: position,
+        Diploma: Diploma,
+        cv: cv,
+    });
+
     try {
-        // Extract individual fields from the request body
-        const {
-            name,
-            address,
-            nic,
-            emailAddress,
-            date,
-            applicantDetails,
-            position,
-            Diploma,
-            cv,
-        } = req.body;
-
-        // Create a new instance of the Applicant model with the extracted data
-        const applicant = new Applicant({
-            name,
-            address,
-            nic,
-            emailAddress,
-            date,
-            applicantDetails,
-            position,
-            Diploma,
-            cv,
-        });
-
-        // Save the applicant to the database
-        await applicant.save();
-
-        // Respond with a 201 status code and the saved applicant data
+        applicant.save();
+        console.log("Applicant created successfully");
         res.status(201).json(applicant);
     } catch (err) {
-        // Handle any errors that occur during the process
         console.error(err);
-        res.status(500).send('Error creating applicant');
+        res.status(500).send("Error creating applicant");
     }
+
+
 });
 
 
 
+// Read  applications for the user
+app.get("/applicants", async (req, res) => {
 
-// Get all applicants
+    const userId = "45821463#23669545";
+
+    try {
+        const applicants = await ApplicantModel.find({ userId });
+        console.log("'Data read successfully'");
+        res.status(200).json(applicants);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Error occurred while retrieving data');
+    }
+
+});
+
+
+
+// Get all applicants for HR
 app.get("/applicants", async (req, res) => {
     try {
         const applicants = await ApplicantModel.find();
@@ -132,8 +180,3 @@ app.delete("/applicants/:id", async (req, res) => {
     }
 });
 
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
-});

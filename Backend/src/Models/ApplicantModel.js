@@ -1,45 +1,77 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
 // Define the schema for the applicant
-const applicantSchema = new mongoose.Schema({
+const applicantSchema = new Schema({
+    userId: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true,
     },
     address: {
         type: String,
-        required: true,
+        // required: true,
     },
     nic: {
         type: String,
-        required: true,
+        // required: true,
     },
     emailAddress: {
         type: String,
-        required: true,
+        // required: true,
     },
     date: {
-        type: Date,
-        required: true,
+        type: String,
+        // required: true,
     },
-    applicantDetails: {
-        highSchoolName: String,
-        city: String,
-        fromDate: Date,
-        toDate: Date,
-        graduate: Boolean,
-        graduateExplanation: String,
-        authorized: Boolean,
-        convicted: Boolean,
+    highSchoolName: {
+        type: String,
+        // required: true,
     },
-    position: String,
-    Diploma: String,
+    city: {
+        type: String,
+        // required: true,
+    },
+    fromDate: {
+        type: String,
+        // required: true,
+    },
+    toDate: {
+        type: String,
+        // required: true,
+    },
+    graduate: {
+        type: String,
+        // required: true,
+    },
+    graduateExplanation: {
+        type: String,
+        // required: true,
+    },
+    authorized: {
+        type: String,
+        // required: true,
+    },
+    convicted: {
+        type: String,
+        // required: true,
+    },
+    position: {
+        type: String,
+        // required: true,
+    },
+    Diploma: {
+        type: String,
+        // required: true,
+    },
     cv: {
-        type: String, // You can use String to store the file path or other information about the uploaded CV
+        type: String,
     },
 });
 
 // Create the Applicant model
-const Applicant = mongoose.model('Applicant', applicantSchema);
+const Applicant = model('Applicant', applicantSchema);
 
-module.exports = Applicant;
+export default Applicant;
